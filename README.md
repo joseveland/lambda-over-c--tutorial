@@ -104,14 +104,14 @@ better summarized the final `SOME_NAME/src/SOME_NAME/Dockerfile` like:
 <br></br>
 
        * Where typically the project name `SOME_NAME` matches the `DLLNAME`
-       abd `NAMESPACE` of the project created by the `lambda.image.EmptyFunction`
+       and `NAMESPACE` of the project created by the `lambda.image.EmptyFunction`
        template
        * However, **MAKE SURE** to change the values for `CLASSNAME`
        and `FUNCTIONNAME` according to your project's naming convention
 <br></br>
 
 * Build that Dockerfile moving to that `SOME_NAME/src/SOME_NAME`
-folder and then run (Change `some_image_name` with any name. you want):
+folder and then run (Change `some_image_name` with any name you want):
 
   ```shell
   docker build -t "some_image_name" .
@@ -120,28 +120,29 @@ folder and then run (Change `some_image_name` with any name. you want):
 
 ## Docker run
 
-* Use that previous image running a container as it already has
+* Use that previous image by running a container as it already has
 an entrypoint (`/lambda-entrypoint.sh` under the hood of the
 [runtime image](https://gallery.ecr.aws/lambda/dotnet) referred as the
 [RIE - Runtime Interface Emulator](https://github.com/aws/aws-lambda-runtime-interface-emulator)
 ) and arguments for that entrypoint (`CMD ["SOME_NAME.Function.FunctionHandler"]`
-referred as the `RIE` handler which will be used to serve logic), so:
+referred as the `RIE`-handler, which will be used to serve logic), so:
 
   ```shell
   docker run -it --rm -p 8080:8080 "some_image_name"
   ```
   **NOTE:** the default port of the `RIE` is the 8080, so I'm
   exposing that to consume it later via HTTP calls. `--rm`
-  is just to remove the container when exiting from it
+  is just a practice to remove the container when exiting from it,
+  avoiding container stacking and later space issues
 
 
 ## Consuming the lambda
 
-* Consumes the `RIE` to be specific as another HTTP server (at `8080`
+* Consumes the `RIE` to be specific as any other HTTP server (at `8080`
 port as seen previously) which is serving a specific function/handler
 that `SOME_NAME` project is representing. Respect the
 endpoint to consume the `2015-03-31/functions/function/invocations`
-MUST be used
+MUST be used [see the RIE's README file](https://github.com/aws/aws-lambda-runtime-interface-emulator)
 
   ```shell
   curl "http://localhost:8080/2015-03-31/functions/function/invocations" \
