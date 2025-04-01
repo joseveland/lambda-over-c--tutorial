@@ -17,7 +17,7 @@ public class IamTheClass
     /// <returns></returns>
     public async Task<string> Convertion(string input, ILambdaContext context)
     {
-        using var playwright = await Playwright.CreateAsync();
+        var playwright = await Playwright.CreateAsync();
         Console.WriteLine($"Hello Playwright!: {playwright}");
         return input.ToUpper();
     }
