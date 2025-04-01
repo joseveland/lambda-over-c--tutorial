@@ -4,9 +4,6 @@
 you will use on your lambda](https://dotnet.microsoft.com/download/dotnet)
 for example `.NET 8.0`
 
-* Also install `docker` in your PC;
-[even if desktop version you will use the CLI anyway](https://www.docker.com/get-started/) 
-
 * [Official documentation](https://docs.aws.amazon.com/lambda/latest/dg/csharp-image.html)
 to create a project template usable to build/publish as lambda files
 
@@ -104,14 +101,14 @@ better summarized the final `SOME_NAME/src/SOME_NAME/Dockerfile` like:
 <br></br>
 
        * Where typically the project name `SOME_NAME` matches the `DLLNAME`
-       and `NAMESPACE` of the project created by the `lambda.image.EmptyFunction`
+       abd `NAMESPACE` of the project created by the `lambda.image.EmptyFunction`
        template
        * However, **MAKE SURE** to change the values for `CLASSNAME`
        and `FUNCTIONNAME` according to your project's naming convention
 <br></br>
 
 * Build that Dockerfile moving to that `SOME_NAME/src/SOME_NAME`
-folder and then run (Change `some_image_name` with any name you want):
+folder and then run (Change `some_image_name` with any name. you want):
 
   ```shell
   docker build -t "some_image_name" .
@@ -120,29 +117,28 @@ folder and then run (Change `some_image_name` with any name you want):
 
 ## Docker run
 
-* Use that previous image by running a container as it already has
+* Use that previous image running a container as it already has
 an entrypoint (`/lambda-entrypoint.sh` under the hood of the
 [runtime image](https://gallery.ecr.aws/lambda/dotnet) referred as the
 [RIE - Runtime Interface Emulator](https://github.com/aws/aws-lambda-runtime-interface-emulator)
 ) and arguments for that entrypoint (`CMD ["SOME_NAME.Function.FunctionHandler"]`
-referred as the `RIE`-handler, which will be used to serve logic), so:
+referred as the `RIE` handler which will be used to serve logic), so:
 
   ```shell
   docker run -it --rm -p 8080:8080 "some_image_name"
   ```
   **NOTE:** the default port of the `RIE` is the 8080, so I'm
   exposing that to consume it later via HTTP calls. `--rm`
-  is just a practice to remove the container when exiting from it,
-  avoiding container stacking and later space issues
+  is just to remove the container when exiting from it
 
 
 ## Consuming the lambda
 
-* Consumes the `RIE` to be specific as any other HTTP server (at `8080`
+* Consumes the `RIE` to be specific as another HTTP server (at `8080`
 port as seen previously) which is serving a specific function/handler
 that `SOME_NAME` project is representing. Respect the
 endpoint to consume the `2015-03-31/functions/function/invocations`
-MUST be used [see the RIE's README file](https://github.com/aws/aws-lambda-runtime-interface-emulator)
+MUST be used
 
   ```shell
   curl "http://localhost:8080/2015-03-31/functions/function/invocations" \
@@ -201,19 +197,13 @@ specific [options as long as available](https://github.com/aws/aws-extensions-fo
 
     ```shell
     dotnet lambda deploy-function "SOME_LAMBDA_NAME" \
-      --profile "SOME_LOCAL_PROFILE_NAME" \
-      --function-role "SOME_AWS_ROLE_NAME"
+      --profile "SOME_LOCAL_AWS_PROFILE_NAME" \
+      --function-role "SOME_AWS_ROLE_NAME_TO_BIND_WITH_YOUR_LAMBDA"
     ```
-    * For example, you might need a `SOME_LOCAL_PROFILE_NAME` to let
+    * For example, you might need a `SOME_LOCAL_AWS_PROFILE_NAME` to let
     the plugin know the local project of your AWS setup
     to be used (Ex: `biodashboard-dev`)
-    * Or `SOME_AWS_ROLE_NAME` role already set on your AWS project
-    (Ex: `gdr-agent-role`) that your lambda will use when running at
-    AWS servers (Lambda resource to be specific)
+    * Or `SOME_AWS_ROLE_NAME_TO_BIND_WITH_YOUR_LAMBDA` role already set
+    on your AWS project (Ex: `gdr-agent-role`) that your lambda will use
+    when running at AWS servers (Lambda resource to be specific)
     * etc...
-
-
-## Demo
-
-* I've applied the previous instructions over a `FirstOne` demo/folder
-instead of the `SOME_NAME` generic placeholder

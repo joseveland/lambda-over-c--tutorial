@@ -7,10 +7,10 @@ namespace FirstOne.Tests;
 public class FunctionTest
 {
     [Fact]
-    public void TestToUpperFunction()
+    public void TestToUpperAndLower()
     {
 
-        // Invoke the lambda function and confirm the string was upper cased.
+        // Invoke the lambda function and confirm the string was lower and upper cased.
         var function = new Function();
         var context = new TestLambdaContext();
         var casing = function.FunctionHandler("hello world", context);

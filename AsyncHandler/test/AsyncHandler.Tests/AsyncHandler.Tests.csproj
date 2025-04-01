@@ -13,6 +13,6 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\FirstOne\FirstOne.csproj" />
+    <ProjectReference Include="..\..\src\AsyncHandler\AsyncHandler.csproj" />
   </ItemGroup>
 </Project>
