@@ -72,6 +72,8 @@ better summarized the final `SOME_NAME/src/SOME_NAME/Dockerfile` like:
     WORKDIR "/src/SOME_NAME"
     COPY . .
     RUN dotnet build "SOME_NAME.csproj" --configuration Release --output /app/build
+    # Change `linux-x64` standard (for lambdas running in cloud servers) ...
+    # ... with your required machine's RID if running locally https://learn.microsoft.com/en-us/dotnet/core/rid-catalog
     RUN dotnet publish "SOME_NAME.csproj" \
     --configuration Release \
     --runtime linux-x64 \
@@ -79,7 +81,7 @@ better summarized the final `SOME_NAME/src/SOME_NAME/Dockerfile` like:
     --output /app/publish \
     -p:PublishReadyToRun=true
     
-    # Run stage
+    # Runtime stage
     FROM public.ecr.aws/lambda/dotnet:8 AS runtime
     # EXTRAS for debugging purpose
     ENV AWS_LAMBDA_LOG_LEVEL="DEBUG"

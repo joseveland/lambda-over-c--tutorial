@@ -6,14 +6,16 @@ RUN dotnet restore "FirstOne/FirstOne.csproj"
 WORKDIR "/src/FirstOne"
 COPY . .
 RUN dotnet build "FirstOne.csproj" --configuration Release --output /app/build
+# Change `linux-x64` standard (for lambdas running in cloud servers) ...
+    # ... with your required machine's RID if running locally https://learn.microsoft.com/en-us/dotnet/core/rid-catalog
 RUN dotnet publish "FirstOne.csproj" \
             --configuration Release \ 
             --runtime linux-x64 \
             --self-contained false \ 
             --output /app/publish \
-            -p:PublishReadyToRun=true  
+            -p:PublishReadyToRun=true
 
-# Run stage
+# Runtime stage
 FROM public.ecr.aws/lambda/dotnet:8 AS runtime
 # EXTRAS for debugging purpose
 ENV AWS_LAMBDA_LOG_LEVEL="DEBUG"

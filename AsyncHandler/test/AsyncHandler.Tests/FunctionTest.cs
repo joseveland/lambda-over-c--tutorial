@@ -13,7 +13,7 @@ public class IamTheClassTest
         // Invoke the lambda function and confirm the string was upper cased.
         var function = new IamTheClass();
         var context = new TestLambdaContext();
-        var casing = await function.Convertion("hello world", context);
+        var casing = await function.Conversion("hello world", context);
 
         Assert.Equal("HELLO WORLD", casing);
     }

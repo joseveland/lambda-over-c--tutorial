@@ -15,10 +15,21 @@ public class IamTheClass
     /// <param name="input">The event for the Lambda function handler to process.</param>
     /// <param name="context">The ILambdaContext that provides methods for logging and describing the Lambda environment.</param>
     /// <returns></returns>
-    public async Task<string> Convertion(string input, ILambdaContext context)
+    public async Task<string> Conversion(string input, ILambdaContext context)
     {
         var playwright = await Playwright.CreateAsync();
-        Console.WriteLine($"Hello Playwright!: {playwright}");
-        return input.ToUpper();
+        Console.WriteLine($"Playwright: {playwright}");
+        var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
+        {   // Headless means no browser window (UI) is needed. https://developer.chrome.com/docs/chromium/headless
+            Headless = true
+        });
+        Console.WriteLine($"Browser: {browser}");
+        var page = await browser.NewPageAsync();
+        Console.WriteLine($"Page: {page}");
+        await page.GotoAsync("https://www.google.com");
+        await page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+        var title = await page.TitleAsync();
+        Console.WriteLine($"Title: {title}");
+        return title;
     }
 }
