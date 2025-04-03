@@ -7,7 +7,7 @@ WORKDIR "/src/FirstOne"
 COPY . .
 RUN dotnet build "FirstOne.csproj" --configuration Release --output /app/build
 # Change `linux-x64` standard (for lambdas running in cloud servers) ...
-    # ... with your required machine's RID if running locally https://learn.microsoft.com/en-us/dotnet/core/rid-catalog
+# ... with your required machine's RID if running locally https://learn.microsoft.com/en-us/dotnet/core/rid-catalog
 RUN dotnet publish "FirstOne.csproj" \
             --configuration Release \ 
             --runtime linux-x64 \

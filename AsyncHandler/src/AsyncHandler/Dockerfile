@@ -8,7 +8,7 @@ WORKDIR "/src/AsyncHandler"
 COPY . .
 RUN dotnet build "AsyncHandler.csproj" --configuration Release --output /app/build
 # Change `linux-x64` standard (for lambdas running in cloud servers) ...
-    # ... with your required machine's RID if running locally https://learn.microsoft.com/en-us/dotnet/core/rid-catalog
+# ... with your required machine's RID if running locally https://learn.microsoft.com/en-us/dotnet/core/rid-catalog
 RUN dotnet publish "AsyncHandler.csproj" \
             --configuration Release \ 
             --runtime linux-x64 \
