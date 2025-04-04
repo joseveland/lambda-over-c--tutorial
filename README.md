@@ -159,11 +159,18 @@ access through the `Amazon.Lambda.Tools` plugin
     ```
 
 * Until this point I haven't used the `aws-lambda-tools-defaults.json`
-at all I inserted into the `Dockerfile`; however this `.json`
-holds good additional information about the lambda deployment
-against AWS servers and even that previously set command argument
-of the dockerfile (`SOME_NAME::SOME_NAME.Function::FunctionHandler`)
-<br></br>
+  at all I inserted into the `Dockerfile`; however this `.json`
+  holds information about the lambda deployment against AWS servers
+  so make sure the `"image-command"` identifier of the handler matches
+  the dockerfile that you tested locally for the plugin to deploy
+  that `CMD` into AWS exactly the same:
+    ```json
+    {
+    ...
+    "image-command": "SOME_NAME::SOME_NAME.Function::FunctionHandler",
+    ...
+    }
+    ```
 
 * So next thing is using that file to really put something in cloud
 with the help of the previously installed plugin by moving the

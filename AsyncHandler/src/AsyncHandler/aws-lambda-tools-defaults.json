@@ -11,6 +11,7 @@
   "package-type": "image",
   "function-memory-size": 512,
   "function-timeout": 30,
-  "image-command": "AsyncHandler::AsyncHandler.Function::FunctionHandler",
+  "image-entrypoint": "/custom-entrypoint.sh",
+  "image-command": "AsyncHandler::AsyncHandler.IamTheClass::Conversion",
   "docker-host-build-output-dir": "./bin/Release/lambda-publish"
 }
